@@ -4,7 +4,7 @@
 <script> 
 $(document).ready(function(){
 var jqxhr;
-jqxhr = $.getJSON("http://www.behance.net/v2/users/USER/projects?api_key=KEY&callback=?", function(data) {
+jqxhr = $.getJSON("http://www.behance.net/v2/users/USER/projects?api_key=Rh1n3l1jyDgqRz0ssQqLR7NEM5qxG070&callback=?", function(data) {
     var project_str = "";
     for(var i=0; i<  data.projects.length; i++){
         obj = {};
@@ -17,7 +17,7 @@ project_str += '<a class="link" href="#' + obj.id  + '"><img src="' + obj.covers
 $('a.link').click(function(){
 var hash = location.hash.replace("#","");
 var jqxhri;
-jqxhri = $.getJSON("http://www.behance.net/v2/projects/' + hash + '?api_key=KEY&callback=?", function(data) {
+jqxhri = $.getJSON("http://www.behance.net/v2/projects/' + hash + '?api_key=Rh1n3l1jyDgqRz0ssQqLR7NEM5qxG070&callback=?", function(data) {
     $('#behance_header h3').html(data.project.name);
     var project_data = '<p>' + data.project.description + '</p>';       
     $('#behance_project').html(project_data);   });
