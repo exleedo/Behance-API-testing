@@ -1,33 +1,61 @@
 <html>
 <head>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script> 
-$(document).ready(function(){
-var jqxhr;
-jqxhr = $.getJSON("http://www.behance.net/v2/users/USER/projects?api_key=Rh1n3l1jyDgqRz0ssQqLR7NEM5qxG070&callback=?", function(data) {
-    var project_str = "";
-    for(var i=0; i<  data.projects.length; i++){
-        obj = {};
-          obj = data.projects[i];
-project_str += '<a class="link" href="#' + obj.id  + '"><img src="' + obj.covers['404'] + '" /></a>';       }
-    $('#behance_container div').append(project_str);
-});
-          });
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 
-$('a.link').click(function(){
-var hash = location.hash.replace("#","");
-var jqxhri;
-jqxhri = $.getJSON("http://www.behance.net/v2/projects/' + hash + '?api_key=Rh1n3l1jyDgqRz0ssQqLR7NEM5qxG070&callback=?", function(data) {
-    $('#behance_header h3').html(data.project.name);
-    var project_data = '<p>' + data.project.description + '</p>';       
-    $('#behance_project').html(project_data);   });
+
+
+<script>
+var user = 'thomasengebrand';
+var api = 'Rh1n3l1jyDgqRz0ssQqLR7NEM5qxG070';
+
+$(document).ready(function () {
+    for (var i = 1; i <= 3; i++) {
+        $.getJSON("http://www.behance.net/v2/users/" + user + "/projects?api_key=" + api + "&callback=?", function (data) {
+            var project_str = "";
+            for (i = 0; i < data.projects.length; i++) {
+                obj = {};
+                obj = data.projects[i];
+
+                project_str += '<a class="tips more-info link" data-placement="bottom" href="#' + obj.id + '"><div class="span3 portfolioitem"><img src="' + obj.covers['404'] + '" /><div class="portfolioitem-hoverinfo"><h3>' + obj.name + '</h3></div></div></a>';
+
+            }
+
+            $('#portfolio-items').append(project_str);
         });
+    }
+});
+
+
+$('a.link').live('click', function () {
+    h = window.location.hash.replace('#', '');
+    $.getJSON("http://www.behance.net/v2/projects/" + h + "?api_key=" + api + "&callback=?", function (data) {
+        var project_data = "";
+        for (var i = 0; i < data.project.modules.length; i++) {
+            if (data.project.modules[i].type == "image") {
+                project_data += '<img src="' + data.project.modules[i].src + '" />';
+            }
+            if (data.project.modules[i].type == "text") {
+                project_data += '<p>' + data.project.modules[i].text + '</p>';
+            }
+        }
+
+        $('.portfolio-details h3').html(data.project.name);
+        $('.portfolio-details div').html(project_data);
+        $('.portfolio-details').fadeIn(6000);
+
+    });
+});
+
 </script>
+
 </head>
 <body>
-    <div id='behance_container'>
-    <div></div>  
-    </div>
-    <div id='behance_header'><h3></h3><p></p></div> <div id='behance_project'></div>
+        <h2>Hello volvo</h2>
+<div class="portfolio-details">
+     <h3></h3>
+
+    <div></div>
+</div>
+<div id="portfolio-items"></div>
 </body>
 </html>
